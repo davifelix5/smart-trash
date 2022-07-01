@@ -107,7 +107,8 @@ export default function Home() {
       </Map>
       <View style={styles.buttonContainer}>
         <Button style={{marginBottom: 10}}>Gerar rota</Button>
-        <Button onPress={() => navigation.navigate('AddCanMap')}>Adicionar lixeira</Button>
+        <Button style={{marginBottom: 10}} onPress={() => navigation.navigate('AddCanMap')}>Adicionar lixeira</Button>
+        <Button onPress={getCans}>Atualizar</Button>
       </View>
     </View>
   );

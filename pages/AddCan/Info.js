@@ -23,7 +23,7 @@ export default function AddCanInfo() {
             database: 'smart-trash',
             dataSource: 'datapan',
             document: {
-                canName,
+                name: canName,
                 location: coords
             }
         })

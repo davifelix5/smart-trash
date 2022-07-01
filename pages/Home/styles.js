@@ -3,9 +3,9 @@ import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
     container: {
-        padding: 45,
         flex: 1,
         alignItems: 'center',
+        justifyContent: 'flex-end',
     },
     callout: {
         paddingHorizontal: 8,
@@ -20,17 +20,17 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         marginBottom: 8,
     },
-    button: {
-        backgroundColor: '#5788bd',
-        width: 200,
+    buttonContainer: {
         margin: 30,
+        alignItems: 'space-between',
+    },
+    button: {
         alignItems: 'center',
         justifyContent: 'center',
-        zIndex: 1000,
-        position: 'absolute',
-        bottom: 5,
-        paddingVertical: 10,
+        backgroundColor: '#5788bd',
         borderRadius: 15,
+        paddingVertical: 10,
+        width: 200,
     },
     buttonText: {
         color: '#ffffff',

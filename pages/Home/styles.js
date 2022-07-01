@@ -22,18 +22,6 @@ export const styles = StyleSheet.create({
     },
     buttonContainer: {
         margin: 30,
-        alignItems: 'space-between',
-    },
-    button: {
         alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#5788bd',
-        borderRadius: 15,
-        paddingVertical: 10,
-        width: 200,
     },
-    buttonText: {
-        color: '#ffffff',
-        fontSize: 20,
-    }
 })

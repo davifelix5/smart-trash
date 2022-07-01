@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
-import * as Location from 'expo-location'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 
-import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
+import {Marker, Callout } from 'react-native-maps';
 import { Circle } from 'react-native-progress'
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
 import { styles } from './styles'
 
@@ -13,6 +13,9 @@ import { api } from '../../services/api';
 import trashEmpty from '../../images/trash-free.png'
 import trashFull from '../../images/trash-full.png'
 import trashWarning from '../../images/trash-warning.png'
+
+import Map from '../components/Map';
+import Button from '../components/Button';
 
 const images = {
   empty: trashEmpty,
@@ -27,9 +30,9 @@ const colors = {
 }
 
 function getStatus(level) {
-  if (level <= 1/3)
+  if (level <= 0.3)
     return 'empty'
-  else if (level <= 2/3)
+  else if (level <= 0.6)
     return 'warning'
   return 'full'
 }
@@ -37,8 +40,8 @@ function getStatus(level) {
 export default function Home() {
 
   const [cans, setCans] = useState([])
-  const [latitude, setLatitude] = useState(-23.5571595)
-  const [longitude, setLongitude] = useState(-46.7324227)
+
+  const navigation = useNavigation()
   
   async function getCans() {
     try {
@@ -54,7 +57,7 @@ export default function Home() {
       setCans(trashCans.map(can => {
         return {
           ...can,
-          status: getStatus(can.level)
+          status: getStatus(can.level || 0)
         }
       }))
 
@@ -64,41 +67,17 @@ export default function Home() {
     }
   }
 
-  async function getUserLocation() {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Localização negada')
-      return;
-    }
-
-    const { coords } = await Location.getCurrentPositionAsync({});
-    return coords
-  }
-
-
-  useEffect(() => {
-    getCans()
-  }, [])
-
-  useEffect(() => {
-    getUserLocation().then(({ latitude, longitude }) => {
-      setLongitude(longitude)
-      setLatitude(latitude)
-    })
-  }, []);
+  useFocusEffect(
+    useCallback(
+      () => {
+        getCans()
+      }, []
+    )
+  )
 
   return (
     <View style={styles.container}>
-      <MapView
-        style={{...StyleSheet.absoluteFill}}
-        provider={PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: latitude,
-          longitude: longitude,
-          latitudeDelta: 0.008,
-          longitudeDelta: 0.008,
-        }}
-      >
+      <Map>
         {cans.map(can => {
           return (
             <Marker
@@ -125,18 +104,10 @@ export default function Home() {
             </Marker>
           )
         })}
-      </MapView>
+      </Map>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={{...styles.button, marginBottom: 10}}>
-          <Text style={styles.buttonText}>
-            Gerar rota
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>
-            Adicionar lixeira
-          </Text>
-        </TouchableOpacity>
+        <Button style={{marginBottom: 10}}>Gerar rota</Button>
+        <Button onPress={() => navigation.navigate('AddCanMap')}>Adicionar lixeira</Button>
       </View>
     </View>
   );

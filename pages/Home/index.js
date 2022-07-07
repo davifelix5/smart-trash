@@ -18,23 +18,15 @@ import Map from '../components/Map';
 import Button from '../components/Button';
 
 const images = {
-  empty: trashEmpty,
-  full: trashFull,
-  warning: trashWarning
+  low: trashEmpty,
+  high: trashFull,
+  medium: trashWarning
 }
 
 const colors = {
-  empty: '#78BC67',
-  full: '#FB7070',
-  warning: '#F8FB88'
-}
-
-function getStatus(level) {
-  if (level <= 0.3)
-    return 'empty'
-  else if (level <= 0.6)
-    return 'warning'
-  return 'full'
+  low: '#78BC67',
+  high: '#FB7070',
+  medium: '#F8FB88'
 }
 
 export default function Home() {
@@ -54,12 +46,7 @@ export default function Home() {
 
       const { documents: trashCans } = data
 
-      setCans(trashCans.map(can => {
-        return {
-          ...can,
-          status: getStatus(can.level || 0)
-        }
-      }))
+      setCans(trashCans)
 
     } catch (err) {
       setCans([])

@@ -24,7 +24,8 @@ export default function AddCanInfo() {
             dataSource: 'datapan',
             document: {
                 name: canName,
-                location: coords
+                location: coords,
+                status: "low",
             }
         })
         navigation.navigate('Home')

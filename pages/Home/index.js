@@ -17,6 +17,8 @@ import trashWarning from "../../images/trash-warning.png";
 import Map from "../components/Map";
 import Button from "../components/Button";
 
+import getRoute from "../../location/getRoute";
+
 const images = {
   low: trashEmpty,
   high: trashFull,
@@ -49,6 +51,10 @@ export default function Home() {
       setCans([]);
       console.log("Houve um erro: " + err);
     }
+  }
+
+  async function handleGenerateRoute() {
+    getRoute();
   }
 
   useFocusEffect(
@@ -93,7 +99,9 @@ export default function Home() {
         })}
       </Map>
       <View style={styles.buttonContainer}>
-        <Button style={{ marginBottom: 10 }}>Gerar rota</Button>
+        <Button onPress={handleGenerateRoute} style={{ marginBottom: 10 }}>
+          Gerar rota
+        </Button>
         <Button
           style={{ marginBottom: 10 }}
           onPress={() => navigation.navigate("AddCanMap")}
